@@ -19,6 +19,7 @@ class Board:
         self.x = dims*6
         self.y = 0
         self.game_over = False
+        self.score = 0
 
         
     # make the board with the boarders
@@ -64,6 +65,8 @@ class Board:
             self.y -= self.dims
             # add piece to board
             self.board[self.y:self.y+self.piece.shape[0], self.x:self.x+self.piece.shape[1],:] += self.piece
+            # look if there are full lines to delete
+            self.delete_lines()
             # reset stuff
             self.spawn_new_piece()
     
@@ -75,6 +78,26 @@ class Board:
                     self.piece = np.rot90(self.piece, axes=(1,0))
             except:
                 pass
+            
+    def delete_lines(self):
+        # idea: iterate through lines and find full lines
+        #
+        how_many = 0
+        for i in range(0, self.dims*20, self.dims):
+            # make a boolean array to check if there is an epty atom
+            current_line = np.array(np.amax(self.board[i,:,:], 1), dtype="bool")
+            if False not in current_line: # this indicates there is no empty atom in the line
+                # increment how many filled lines
+                how_many += 1
+                #concatenate in between and add a white on top
+                filler = np.zeros((self.dims,self.dims*14,3), dtype="int64")
+                filler[:, :self.dims*2, :] = 255
+                filler[:, self.dims*12:, :] = 255
+                
+                self.board = np.concatenate((filler, self.board[:i,:,:], self.board[i+self.dims:,:,:]))
+        #TODO: increment score based on how many lines were filled
+        self.score += how_many
+    
             
     def collison(self):
         # idea: get the first 3 colors of each atom
@@ -290,4 +313,4 @@ if __name__ == "__main__":
     
     board = Board(10)
     plt.imshow(board.piece)
-    board.move_down()
+    board.delete_lines()

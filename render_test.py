@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import numpy as np
+#import numpy as np
 import tetrominos as tet
 import time
 import pygame
@@ -24,47 +24,41 @@ pygame.init()
 screen = pygame.display.set_mode((500, 500), pygame.RESIZABLE)
 pygame.key.set_repeat(200, 90) # set how long it takes for repeat input
                                 # you need to restart the kernel for this for
-                                # some reason
+                                # some reason in spyder
 
 #make board
 board = tet.Board(dims)
 
 #start timer
 timestep = frametime = time.time()
+
+# =============================================================================
+# game loop
+# =============================================================================
 while not board.game_over:
+    
 # =============================================================================
 #     framerate counter
 # =============================================================================
     fr = framerate(timestep)
     timestep = time.time()
     #print(fr)
+    
 # =============================================================================
 # move down  
-# do this with multiprocessing later 
+# do this with multiprocessing later?
 # =============================================================================
     dummy_board = board.board.copy()
-    try:
-        dummy_board[board.y:board.y+board.piece.shape[0], board.x:board.x+board.piece.shape[1]] += board.piece    
-        #board.move_down()
-    except:
-        pass
+    dummy_board[board.y:board.y+board.piece.shape[0], board.x:board.x+board.piece.shape[1]] += board.piece    
 
+    #piece speed
     if (time.time()-frametime) >= (1/200):
         frame_counter += 1
         frametime = time.time()
     
     if frame_counter == frames_per_gridcell:
-        try: 
-            frame_counter = 0
-            #dummy_board = board.board.copy()
-            #dummy_board[board.y:board.y+board.piece.shape[0], board.x:board.x+board.piece.shape[1]] += board.piece
-            #board.y += dims
-            board.move_down()
-            
-        except:
-            board.move_down()
-            #board.y = 0
-        
+        frame_counter = 0
+        board.move_down()
     
 # =============================================================================
 #   event handler
@@ -84,6 +78,7 @@ while not board.game_over:
                     board.move_left()
                 elif event.key == 1073741905:
                     board.move_down()
+                    
 # =============================================================================
 #   only draw to screen when specified
 # =============================================================================
@@ -96,6 +91,6 @@ while not board.game_over:
         pygame.display.update()
         
 
-print("your final score is 0")
+print(f"your final score is {board.score}")
 pygame.quit()
         
