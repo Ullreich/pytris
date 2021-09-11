@@ -70,6 +70,8 @@ while not board.game_over:
                 #print(event.key)
                 if event.key == 112: # the p key for pause
                     displ_bool = not displ_bool
+                elif event.key == 27: #escape key
+                    pygame.quit()
                 elif event.key == 32: # space
                     board.rotate()
                 elif event.key ==  1073741903: #right key
@@ -83,7 +85,7 @@ while not board.game_over:
 #   only draw to screen when specified
 # =============================================================================
     if displ_bool:    
-        board_game = pygame.pixelcopy.make_surface(dummy_board)#dummy_board[:20*dims,2*dims:12*dims,:])
+        board_game = pygame.pixelcopy.make_surface(dummy_board[:20*dims,2*dims:12*dims,:])
         flipped = pygame.transform.flip(board_game, True, False)
         rotated = pygame.transform.rotate(flipped, 90)
         scaled_win = pygame.transform.scale(rotated, screen.get_size())
