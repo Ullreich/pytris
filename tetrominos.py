@@ -222,6 +222,8 @@ class _Tetromino:
     
 # =============================================================================
 # tetrominos
+# rotations based on https://harddrop.com/wiki/Nintendo_Rotation_System
+# rotation deviates from classic tetris
 # =============================================================================
 
 class T_Piece(_Tetromino):
@@ -232,9 +234,9 @@ class T_Piece(_Tetromino):
         #make the tetromino
         a = self.atom           # asign a s that the piece array is less ugly
         b = self.atom_black
-        piece_array = np.array([[a, a, a],
-                                [b, a, b],
-                                [b, b, b]])
+        piece_array = np.array([[b, b, b],
+                                [a, a, a],
+                                [b, a, b]])
         self.piece = self.build_block(piece_array)
         
 class O_Piece(_Tetromino):
@@ -255,10 +257,11 @@ class I_Piece(_Tetromino):
         self.atom = self.build_atom(self.atom_empty, self.color)
         #make the tetromino
         a = self.atom           # asign a s that the piece array is less ugly
-        piece_array = np.array([[a], 
-                                [a],
-                                [a],
-                                [a]])
+        b = self.atom_black
+        piece_array = np.array([[b, a, b], 
+                                [b, a, b],
+                                [b, a, b],
+                                [b, a, b]])
         self.piece = self.build_block(piece_array)
         
 class L_Piece(_Tetromino):
@@ -269,8 +272,10 @@ class L_Piece(_Tetromino):
         #make the tetromino
         a = self.atom           # asign a s that the piece array is less ugly
         b = self.atom_black
-        piece_array = np.array([[a, a, a], 
-                                [a, b, b]])
+        piece_array = np.array([
+                                [a, a, a], 
+                                [a, b, b],
+                                [b, b, b]])
         self.piece = self.build_block(piece_array)
         
 class J_Piece(_Tetromino):
@@ -282,7 +287,8 @@ class J_Piece(_Tetromino):
         a = self.atom           # asign a s that the piece array is less ugly
         b = self.atom_black
         piece_array = np.array([[a, b, b], 
-                                [a, a, a]])
+                                [a, a, a],
+                                [b, b, b]])
         self.piece = self.build_block(piece_array)
         
 class S_Piece(_Tetromino):
@@ -293,7 +299,8 @@ class S_Piece(_Tetromino):
         #make the tetromino
         a = self.atom           # asign a s that the piece array is less ugly
         b = self.atom_black
-        piece_array = np.array([[b, a, a], 
+        piece_array = np.array([[b, b, b],
+                                [b, a, a], 
                                 [a, a, b]])
         self.piece = self.build_block(piece_array)
         
@@ -305,7 +312,8 @@ class Z_Piece(_Tetromino):
         #make the tetromino
         a = self.atom           # asign a s that the piece array is less ugly
         b = self.atom_black
-        piece_array = np.array([[a, a, b], 
+        piece_array = np.array([[b, b, b],
+                                [a, a, b], 
                                 [b, a, a]])
         self.piece = self.build_block(piece_array)
         
