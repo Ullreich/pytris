@@ -100,13 +100,13 @@ class Board:
                 
                 self.board = np.concatenate((filler, self.board[:i,:,:], self.board[i+self.dims:,:,:]))
         #score based on https://harddrop.com/wiki/Scoring
+        #if lines are actually deleted
         if how_many > 0:
             self.score += self.score_list[how_many-1]*(self.level+1)
-            print(self.score)
-        #increment total deleted lines
-        self.total_lines += how_many
-        #increse level if we need to
-        self.increase_level()
+            #increment total deleted lines
+            self.total_lines += how_many
+            #increse level if we need to
+            self.increase_level()
         
     def increase_level(self):
         #based on https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
