@@ -55,7 +55,7 @@ while not board.game_over:
         frame_counter += 1
         frametime = time.time()
     
-    if frame_counter == board.fpg:
+    if frame_counter >= board.fpg:
         frame_counter = 0
         board.move_down()
     

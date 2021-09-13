@@ -20,9 +20,11 @@ class Board:
         self.y = 0
         self.game_over = False
         self.score = 0
+        self.score_list = [40, 100, 300, 1200]
         self.level = 0
         self.total_lines = 0
         self.fpg = 48 #frames per gridcell
+        #speeds taken from https://harddrop.com/wiki/Tetris_(NES,_Nintendo)
         self.fpg_list = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5]
             
     # make the board with the boarders
@@ -84,7 +86,6 @@ class Board:
             
     def delete_lines(self):
         # idea: iterate through lines and find full lines
-        #
         how_many = 0
         for i in range(0, self.dims*20, self.dims):
             # make a boolean array to check if there is an epty atom
@@ -98,16 +99,17 @@ class Board:
                 filler[:, self.dims*12:, :] = 255
                 
                 self.board = np.concatenate((filler, self.board[:i,:,:], self.board[i+self.dims:,:,:]))
-        #TODO: increment score based on how many lines were filled
-        self.score += how_many
+        #score based on https://harddrop.com/wiki/Scoring
+        if how_many > 0:
+            self.score += self.score_list[how_many-1]*(self.level+1)
+            print(self.score)
         #increment total deleted lines
         self.total_lines += how_many
-        if how_many > 0:
-            print(self.total_lines)
         #increse level if we need to
         self.increase_level()
         
     def increase_level(self):
+        #based on https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
         #check to see if level needs to be increased
         if self.total_lines >= ((self.level*10+10) or np.max([100, self.level*10-50])):
             #set back lines
@@ -127,6 +129,8 @@ class Board:
                 self.fpg = 2
             else:
                 self.fpg = 1
+            print("speedup")
+            print(self.fpg)
     
             
     def collison(self):
