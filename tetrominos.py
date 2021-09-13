@@ -20,8 +20,11 @@ class Board:
         self.y = 0
         self.game_over = False
         self.score = 0
-
-        
+        self.level = 0
+        self.total_lines = 0
+        self.fpg = 48 #frames per gridcell
+        self.fpg_list = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5]
+            
     # make the board with the boarders
     def makeboard(self):
         board = np.ones((self.dims*22, self.dims*14, 3), dtype="int64")*255
@@ -97,6 +100,33 @@ class Board:
                 self.board = np.concatenate((filler, self.board[:i,:,:], self.board[i+self.dims:,:,:]))
         #TODO: increment score based on how many lines were filled
         self.score += how_many
+        #increment total deleted lines
+        self.total_lines += how_many
+        if how_many > 0:
+            print(self.total_lines)
+        #increse level if we need to
+        self.increase_level()
+        
+    def increase_level(self):
+        #check to see if level needs to be increased
+        if self.total_lines >= ((self.level*10+10) or np.max([100, self.level*10-50])):
+            #set back lines
+            self.total_lines = self.total_lines%10
+            #increase level
+            self.level += 1
+            #increase fpg
+            if self.level <= 10:
+                self.fpg = self.fpg_list[self.level]
+            elif 10<self.level<=12:
+                self.fpg = 5
+            elif 13<=self.level<=15:
+                self.fpg = 4
+            elif 16<=self.level<=18:
+                self.fpg = 3
+            elif 19<=self.level<=28:
+                self.fpg = 2
+            else:
+                self.fpg = 1
     
             
     def collison(self):

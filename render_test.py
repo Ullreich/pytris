@@ -8,8 +8,7 @@ import pygame
 
 dims = 10
 displ_bool = True 
-frame_counter = 48
-frames_per_gridcell = 48
+frame_counter = 0
 
 def framerate(timestep):
     new_timestep = time.time()
@@ -22,7 +21,7 @@ def framerate(timestep):
 #init pygame
 pygame.init()
 screen = pygame.display.set_mode((500, 500), pygame.RESIZABLE)
-pygame.key.set_repeat(200, 90) # set how long it takes for repeat input
+pygame.key.set_repeat(266, 100) # set how long it takes for repeat input
                                 # you need to restart the kernel for this for
                                 # some reason in spyder
 
@@ -52,11 +51,11 @@ while not board.game_over:
     dummy_board[board.y:board.y+board.piece.shape[0], board.x:board.x+board.piece.shape[1]] += board.piece    
 
     #piece speed
-    if (time.time()-frametime) >= (1/200):
+    if (time.time()-frametime) >= (1/60): #run at 60 fps
         frame_counter += 1
         frametime = time.time()
     
-    if frame_counter == frames_per_gridcell:
+    if frame_counter == board.fpg:
         frame_counter = 0
         board.move_down()
     
