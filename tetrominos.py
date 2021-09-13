@@ -112,15 +112,6 @@ class Board:
         board_part = self.board[self.y:self.y+y_p:self.dims, self.x:self.x+x_p:self.dims,:]
         board_part = np.array(np.amax(board_part, 2), dtype="bool")
         
-        #for debugging collision
-        '''
-        print("piece")
-        print(piece.shape)
-        print(piece)
-        print("board")
-        print(board_part.shape)
-        print(board_part)
-        '''
         if np.logical_and(piece, board_part).any():
             return True
         return False
@@ -138,8 +129,8 @@ class _Tetromino:
     
     #needed to make a pretty atom block
     def _make_atom_filled(self):
-        '''
-        old design
+        
+        #old design
         atom1_bool = np.ones(shape=(self.dims, self.dims), dtype='bool')
         atom1_bool[1,1:4] = False
         atom1_bool[2,1:3] = False
@@ -163,7 +154,7 @@ class _Tetromino:
         
         #if self.dims%2 == 0:
         #    atom1_bool[int(self.dims/2-1):int(self.dims/2+1),int(self.dims/2-1):int(self.dims/2+1)] = False
-        
+        '''
         return atom1_bool
     
     def _make_atom_empty(self):
