@@ -15,6 +15,7 @@ class Board:
     def __init__(self, dims):
         self.dims = dims
         self.board = self.makeboard()
+        self.background = np.load("background.npy")
         self.piece = self.select_piece()
         self.x = dims*6
         self.y = 0
@@ -149,6 +150,14 @@ class Board:
         if np.logical_and(piece, board_part).any():
             return True
         return False
+    
+    def final_array(self, dummy_board):
+        arr = self.background
+        #blit in board to background
+        arr[:,100:200,:] = dummy_board
+        
+        return arr
+        
     
 # =============================================================================
 # base class from which all others inherit 
@@ -345,5 +354,14 @@ if __name__ == "__main__":
     """
     
     board = Board(10)
+    dims=10
     plt.imshow(board.piece)
-    board.delete_lines()
+    
+    dummy_board = board.board[:20*dims,2*dims:12*dims,:]
+    #plt.imshow(dummy_board)
+    with_background = board.final_array(dummy_board)
+    plt.imshow(with_background)
+    
+    
+    print(np.max(with_background))
+    
