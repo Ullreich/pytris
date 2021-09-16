@@ -5,6 +5,7 @@
 import tetrominos as tet
 import time
 import pygame
+import sys
 
 dims = 10
 displ_bool = True 
@@ -23,6 +24,13 @@ screen = pygame.display.set_mode((600, 400), pygame.RESIZABLE)
 pygame.key.set_repeat(266, 100) # set how long it takes for repeat input
                                 # you need to restart the kernel for this for
                                 # some reason in spyder
+
+#board objects
+fontname = pygame.font.get_default_font()
+myfont = pygame.font.SysFont("Comic Sans MS", 30)
+yellow = (255, 0, 0)
+
+
 
 #make board
 board = tet.Board(dims)
@@ -83,14 +91,27 @@ while not board.game_over:
 #   only draw to screen when specified
 # =============================================================================
     if displ_bool:    
+        #make a correct pygame object for the screen from our numpy arrays
         dummy_board = dummy_board[:20*dims,2*dims:12*dims,:]
         dummy_board = board.final_array(dummy_board)
         #board_game = pygame.pixelcopy.make_surface()
         board_game = pygame.pixelcopy.make_surface(dummy_board)
         flipped = pygame.transform.flip(board_game, True, False)
         rotated = pygame.transform.rotate(flipped, 90)
+        
         scaled_win = pygame.transform.scale(rotated, screen.get_size())
         screen.blit(scaled_win, (0,0))
+        
+        #blit in scores
+        score_title = myfont.render("score", 1, yellow)
+        screen.blit(score_title, (0,0))
+        score = myfont.render(str(board.score), 1, yellow)
+        screen.blit(score, (0, 30))
+        level_title = myfont.render("level", 1, yellow)
+        screen.blit(level_title, (0,60))
+        level = myfont.render(str(board.level), 1, yellow)
+        screen.blit(level, (0,90))
+        
         pygame.display.update()
         
 

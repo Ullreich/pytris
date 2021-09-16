@@ -15,7 +15,7 @@ class Board:
     def __init__(self, dims):
         self.dims = dims
         self.board = self.makeboard()
-        self.background = np.load("background.npy")
+        self.background = np.load("background.npy") # change this to do this in pygame?
         self.piece = self.select_piece()
         self.x = dims*6
         self.y = 0
