@@ -17,6 +17,8 @@ class Board:
         self.board = self.makeboard()
         self.background = np.load("background.npy") # change this to do this in pygame?
         self.piece = self.select_piece()
+        self.next_piece = self.select_piece()
+        self.next_piece_display = self.display_piece()
         self.x = dims*6
         self.y = 0
         self.game_over = False
@@ -47,11 +49,21 @@ class Board:
         return np.random.choice(pieces)
     
     def spawn_new_piece(self):
-        self.piece = self.select_piece()
+        self.piece = self.next_piece
+        self.next_piece = self.select_piece()
+        self.next_piece_display = self.display_piece()
         self.x = self.dims*6
         self.y = 0
         if self.collison():
             self.game_over = True
+    
+    def display_piece(self):
+        arr = np.zeros((4*self.dims, 4*self.dims, 3), dtype="int64")
+        if self.next_piece.shape[0] == 4*self.dims:
+            arr[:, self.dims:, :] = self.next_piece
+        else:
+            arr[self.dims:, self.dims:, :] = self.next_piece
+        return arr
             
     
     def move_left(self):
@@ -255,8 +267,10 @@ class O_Piece(_Tetromino):
         self.atom = self.build_atom(self.atom_empty, self.color)
         #make the tetromino
         a = self.atom           # asign a s that the piece array is less ugly
-        piece_array = np.array([[a, a],
-                                [a, a]])
+        b = self.atom_black
+        piece_array = np.array([[a, a, b],
+                                [a, a, b],
+                                [b, b, b]])
         self.piece = self.build_block(piece_array)
         
 class I_Piece(_Tetromino):
@@ -336,32 +350,6 @@ if __name__ == "__main__":
     
     dim = 10
     
-    """
-    T = T_Piece(10)
-    L = L_Piece(10)
-    J = J_Piece(10)
-    S = S_Piece(10)
-    Z = Z_Piece(10)
-    I = I_Piece(10)
-    O = O_Piece(10)
-    
-    pieces = [T, L, J, S, Z, I, O]
-    
-    for piece in pieces:
-        print(piece)
-        #plt.imshow(piece.block)
-        time.sleep(1)
-    """
-    
-    board = Board(10)
-    dims=10
-    plt.imshow(board.piece)
-    
-    dummy_board = board.board[:20*dims,2*dims:12*dims,:]
-    #plt.imshow(dummy_board)
-    with_background = board.final_array(dummy_board)
-    plt.imshow(with_background)
-    
-    
-    print(np.max(with_background))
+    piece = I_Piece(dim)
+    print(piece.piece.shape)
     
