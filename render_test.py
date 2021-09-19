@@ -78,59 +78,63 @@ while not board.game_over:
                 if event.key == 112: # the p key for pause
                     displ_bool = not displ_bool
                 elif event.key == 27: #escape key
-                    pygame.quit()
-                elif event.key == 32: # space
+                    board.game_over = True
+                elif event.key == 32: #  space
                     board.rotate()
                 elif event.key ==  1073741903: #right key
                     board.move_right()
                 elif event.key == 1073741904: #right key
                     board.move_left()
-                elif event.key == 1073741905:
+                elif event.key == 1073741905: #down key
                     board.move_down()
                     
 # =============================================================================
 #   only draw to screen when specified
 # =============================================================================
-   
+    #if displ_bool: 
     #make a correct pygame object for the screen from our numpy arrays
     dummy_board = dummy_board[:20*dims,2*dims:12*dims,:]
     dummy_board = board.final_array(dummy_board)
-    #board_game = pygame.pixelcopy.make_surface()
-    board_game = pygame.pixelcopy.make_surface(dummy_board)
-    flipped = pygame.transform.flip(board_game, True, False)
-    rotated = pygame.transform.rotate(flipped, 90)
     
-    scaled_win = pygame.transform.scale(rotated, screen.get_size())
-    screen.blit(scaled_win, (0,0))
-    
-    #blit in scores
-    score_title = myfont.render("score", 1, yellow)
-    screen.blit(score_title, (0,0))
-    score = myfont.render(str(board.score), 1, yellow)
-    screen.blit(score, (0, 30))
-    level_title = myfont.render("level", 1, yellow)
-    screen.blit(level_title, (0,60))
-    level = myfont.render(str(board.level), 1, yellow)
-    screen.blit(level, (0,90))
-    
-    #blit in next piece
-    next_piece = pygame.pixelcopy.make_surface(board.next_piece_display)
-    next_piece_flipped = pygame.transform.flip(next_piece, True, False)
-    next_piece_rotated = pygame.transform.rotate(next_piece_flipped, 90)
-    #screen.blit(next_piece_rotated, (200, 0))
-
-    factor = [screen.get_size()[i]/size[i] for i in range(2)]
-    scale_var = [int(8*board.dims*i) for i in factor] # since board size is (600,400) instead of (300,200)
-    place = [int((i*(7/9))) for i in screen.get_size()]
-    place = [int(screen.get_size()[0]*7/9), int(screen.get_size()[1]*1/9)]
-    
-    next_piece_scaled = pygame.transform.scale(next_piece_rotated, scale_var)
-    screen.blit(next_piece_scaled, (place))
     
     if displ_bool: 
+        #board_game = pygame.pixelcopy.make_surface()
+        board_game = pygame.pixelcopy.make_surface(dummy_board)
+        flipped = pygame.transform.flip(board_game, True, False)
+        rotated = pygame.transform.rotate(flipped, 90)
+        
+        scaled_win = pygame.transform.scale(rotated, screen.get_size())
+        screen.blit(scaled_win, (0,0))
+        
+        """
+        #blit in scores
+        score_title = myfont.render("score", 1, yellow)
+        screen.blit(score_title, (0,0))
+        score = myfont.render(str(board.score), 1, yellow)
+        screen.blit(score, (0, 30))
+        level_title = myfont.render("level", 1, yellow)
+        screen.blit(level_title, (0,60))
+        level = myfont.render(str(board.level), 1, yellow)
+        screen.blit(level, (0,90))
+        
+        #blit in next piece
+        next_piece = pygame.pixelcopy.make_surface(board.next_piece_display)
+        next_piece_flipped = pygame.transform.flip(next_piece, True, False)
+        next_piece_rotated = pygame.transform.rotate(next_piece_flipped, 90)
+        #screen.blit(next_piece_rotated, (200, 0))
+    
+        factor = [screen.get_size()[i]/size[i] for i in range(2)]
+        scale_var = [int(8*board.dims*i) for i in factor] # since board size is (600,400) instead of (300,200)
+        place = [int((i*(7/9))) for i in screen.get_size()]
+        place = [int(screen.get_size()[0]*7/9), int(screen.get_size()[1]*1/9)]
+        
+        next_piece_scaled = pygame.transform.scale(next_piece_rotated, scale_var)
+        screen.blit(next_piece_scaled, (place))
+        """
+    
         pygame.display.update()
         
 
 print(f"your final score is {board.score}")
 pygame.quit()
-        
+sys.exit()

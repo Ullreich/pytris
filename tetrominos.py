@@ -16,6 +16,7 @@ class Board:
         self.dims = dims
         self.board = self.makeboard()
         self.background = np.load("background.npy") # change this to do this in pygame?
+        self.score_img = np.load("score.npy")
         self.piece = self.select_piece()
         self.next_piece = self.select_piece()
         self.next_piece_display = self.display_piece()
@@ -29,7 +30,10 @@ class Board:
         self.fpg = 48 #frames per gridcell
         #speeds taken from https://harddrop.com/wiki/Tetris_(NES,_Nintendo)
         self.fpg_list = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5]
-            
+        
+        #clean this up
+        self.number_0 = np.load("number_0.npy")
+        
     # make the board with the boarders
     def makeboard(self):
         board = np.ones((self.dims*22, self.dims*14, 3), dtype="int64")*255
@@ -165,10 +169,28 @@ class Board:
     
     def final_array(self, dummy_board):
         arr = self.background
+        
         #blit in board to background
         arr[:,100:200,:] = dummy_board
         
+        #blit in next piece
+        x_coord = 233 #=int((7/9)*300)
+        y_coord = 22  #=int((1/9)*200)
+        arr[y_coord:y_coord+4*self.dims, x_coord:x_coord+4*self.dims, :] = self.next_piece_display
+        
+        #blit score
+        x_coord = self.score_img.shape[1]
+        y_coord = self.score_img.shape[0]
+        
+        arr[0:y_coord, 0:x_coord, :] = self.score_img
+        
+        # add score and level
+        arr[15:25, 30:38, :] = self.number_0 
+        
         return arr
+    
+    def number_array(self):
+        pass
         
     
 # =============================================================================
