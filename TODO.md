@@ -1,9 +1,19 @@
 # TODO
 
-1. clean up code
-    1. optimize: make no_display mode work
-    2. better font
-    3. nice background and add blit background correctly
-    4. better colorsheme
-    5. nicer atoms (rotationally independant?)
-1. clean up files
++ clean up
+    + optimize
+    + impove framecounter?
+    + nice background 
+    + better colorsheme
+    + nicer atoms (rotationally independant?)
+    + clean up files/add subdirectories
+    + comment code
+    + good variable names and script names
++ features:
+    + docs/good readme
+    + add license
+    + add gitignore
+    + pause
+    + kwargs when launching script
+
+
