@@ -15,5 +15,5 @@
     + add gitignore
     + pause
     + kwargs when launching script
-
+    + multithreading?
 

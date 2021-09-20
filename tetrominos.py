@@ -15,9 +15,9 @@ class Board:
     def __init__(self, dims):
         self.dims = dims
         self.board = self.makeboard()
-        self.background = np.load("background.npy") # change this to do this in pygame?
-        self.score_img = np.load("score.npy")
-        self.piece_img = np.load("next_piece.npy")
+        self.background = np.load("sprites/background.npy") # change this to do this in pygame?
+        self.score_img = np.load("sprites/score.npy")
+        self.piece_img = np.load("sprites/next_piece.npy")
         self.piece = self.select_piece()
         self.next_piece = self.select_piece()
         self.next_piece_display = self.display_piece()
@@ -33,7 +33,7 @@ class Board:
         self.fpg_list = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5]
         
         #clean this up
-        self.numbers = np.load("numbers.npy")
+        self.numbers = np.load("sprites/numbers.npy")
         
     # make the board with the boarders
     def makeboard(self):

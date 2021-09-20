@@ -12,5 +12,5 @@ the script is written in python 3.9.6.
 + right arrow: 	move right
 + down arrow: 	move down (soft drop)
 + space bar: 	rotate
-+ p:		toggle render mode. this speeds up the game tenfold
++ r:		toggle render mode. this speeds up the game tenfold
 + esc:		quit game
