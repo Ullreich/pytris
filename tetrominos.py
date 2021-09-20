@@ -15,9 +15,6 @@ class Board:
     def __init__(self, dims):
         self.dims = dims
         self.board = self.makeboard()
-        self.background = np.load("sprites/background.npy") # change this to do this in pygame?
-        self.score_img = np.load("sprites/score.npy")
-        self.piece_img = np.load("sprites/next_piece.npy")
         self.piece = self.select_piece()
         self.next_piece = self.select_piece()
         self.next_piece_display = self.display_piece()
@@ -31,9 +28,11 @@ class Board:
         self.fpg = 48 #frames per gridcell
         #speeds taken from https://harddrop.com/wiki/Tetris_(NES,_Nintendo)
         self.fpg_list = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5]
-        
-        #clean this up
+        # load sprites
         self.numbers = np.load("sprites/numbers.npy")
+        self.background = np.load("sprites/background.npy") # change this to do this in pygame?
+        self.score_img = np.load("sprites/score.npy")
+        self.piece_img = np.load("sprites/next_piece.npy")
         
     # make the board with the boarders
     def makeboard(self):
@@ -147,8 +146,6 @@ class Board:
                 self.fpg = 2
             else:
                 self.fpg = 1
-            print("speedup")
-            print(self.fpg)
     
             
     def collison(self):
@@ -209,7 +206,6 @@ class Board:
             pixel_number[:,j:j+10,:] = ret
             
         return pixel_number
-        
     
 # =============================================================================
 # base class from which all others inherit 
